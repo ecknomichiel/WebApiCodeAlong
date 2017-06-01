@@ -36,12 +36,14 @@ namespace WenAPICodeAlong.Controllers
         // POST api/values
         public void Post([FromBody]Book value)
         {
+            BookRepository.Instance.AddOrUpdateBook(value);
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]Book value)
+
+        public void Put([FromBody]Book value)
         {
-            BookRepository.Instance.UpdateBook(value);
+            BookRepository.Instance.AddOrUpdateBook(value);
         }
 
         // DELETE api/values/5

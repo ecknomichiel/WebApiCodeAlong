@@ -1,0 +1,10 @@
+﻿@model IEnumerable<WenAPICodeAlong.Models.Author>
+
+<label for="sel1">Author :</label>
+<select class="form-control" id="type" name="AuthorID">
+@foreach (WenAPICodeAlong.Models.Author item in Model)
+{
+    <option value="@item.Id">@item.Name</option>
+}
+</select>
+

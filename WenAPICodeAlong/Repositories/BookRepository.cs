@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Data.Entity;
 using WenAPICodeAlong.DataAccess;
 using WenAPICodeAlong.Models;
 
@@ -9,7 +10,7 @@ namespace WenAPICodeAlong.Repositories
 {
     public class BookRepository
     {
-        private BookDbContext context = new BookDbContext();
+        private IBookSource context = new BookDbContext();
         private static BookRepository instance = null;
         public static BookRepository Instance
         {
@@ -24,20 +25,20 @@ namespace WenAPICodeAlong.Repositories
         }
         public IEnumerable<Book> GetAllBooks()
         {
-            return context.Books;
+            return context.GetAllBooks();
+                
         }
         public Book GetBookByISBN(int aISBN)
         {
-            return context.Books.Find(aISBN);
+            return GetAllBooks().SingleOrDefault(b => b.ISBN == aISBN);
         }
         public void DeleteBook(int aISBN)
         {
-            context.Books.Remove(GetBookByISBN(aISBN));
+            context.DeleteBook(aISBN);
         }
-        public void UpdateBook(Book newBookValues)
+        public void AddOrUpdateBook(Book newBookValues)
         {
-            if (newBookValues != null)
-                GetBookByISBN(newBookValues.ISBN).Assign(newBookValues);
+            context.SaveBook(newBookValues);
         }
     }
 }
